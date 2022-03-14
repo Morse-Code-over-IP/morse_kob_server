@@ -1,1 +1,0 @@
-py KOBServer.py C:\www >>errlog.txt 2>&1

@@ -41,6 +41,3 @@ You'll want KOBServer to launch itself automatically whenever you reboot your co
 
 # References
 - https://sites.google.com/site/morsekob/server/installation/software
-
-
-# morse_kob_server
