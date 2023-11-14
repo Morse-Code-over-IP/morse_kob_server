@@ -1,9 +1,7 @@
 version: '3'
 services:
- mopp_chat_server:
-  #image: kob_chat_server
-  build: .
-  container_name: kob_chat_server
+ cwcom_chat_server:
+  image: ghcr.io/morse-code-over-ip/morse_kob_server:latest
   ports: 
     - 7890:7890/udp
   restart: always
