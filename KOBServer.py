@@ -26,13 +26,15 @@ import socket
 import struct
 import threading
 import time
+import os
 from pins import pins  # dictionary mapping wire nos. to PIN codes
 
 # constants
-VERSION = '6.1.0'
-PORT = 7890
-TIMEOUT = 90.0  # to accommodate NewsBot's 30 second heartbeat timer
-NEWSBOTIP = '70.167.219.231'
+VERSION = os.environ.get('VERSION', '6.1.0')
+PORT = os.environ.get('PORT', '7890')
+TIMEOUT = os.environ.get('TIMEOUT', '90.0')# to accommodate NewsBot's 30 second heartbeat timer
+NEWSBOTIP = os.environ.get('NEWSBOTIP', '70.167.219.231')
+
 
 # command codes
 DIS = 2  # Disconnect
