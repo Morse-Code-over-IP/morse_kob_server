@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """KOBServer.py
 
@@ -41,9 +41,9 @@ CON = 4  # Connect
 ACK = 5  # Ack
 
 # packet formats
-longRecord  = struct.Struct('<H2x 128s 20x 204x I 128s 8x')
+longRecord = struct.Struct('<H2x 128s 20x 204x I 128s 8x')
 shortRecord = struct.Struct('<HH')
-ackRecord   = struct.Struct('<H')
+ackRecord = struct.Struct('<H')
 
 # get parameters
 nargs = len(sys.argv)
@@ -53,12 +53,12 @@ port = int(sys.argv[2]) if nargs > 2 else 7890
 # station class
 class Station:
     def __init__(self, stnAddr):
-        self.addr    = stnAddr      # remote IP address + port no.
-        self.wire    = 0            # current wire no.
-        self.id      = ''           # station ID
-        self.pin     = ''           # PIN code
-        self.version = ''           # version of client software
-        self.time    = time.time()  # time last heard from
+        self.addr = stnAddr  # remote IP address + port no.
+        self.wire = 0  # current wire no.
+        self.id = ''  # station ID
+        self.pin = ''  # PIN code
+        self.version = ''  # version of client software
+        self.time = time.time()  # time last heard from
 
     def updateWireNo(self, wireNo):
         global statusChanged
@@ -91,7 +91,7 @@ def findStation(stnAddr):
 def updateStationList():
     global statusChanged
     while True:
-        for stn in stations.values():
+        for stn in list(stations.values()):
             if time.time() - stn.time > TIMEOUT:
                 del stations[stn.addr]
                 log('Time\t' + stationString(stn))
@@ -144,8 +144,8 @@ def updateWebPage():
 # post message to log file
 def log(msg):
     t = time.strftime('%Y-%m-%d %H:%M:%S\t%z')
-            # %Z deprecated, %z not always supported
-    #print('{}\t{}<br>'.format(t, msg), file=logPage, flush=True)  # Python3 only
+    # %Z deprecated, %z not always supported
+    # print('{}\t{}<br>'.format(t, msg), file=logPage, flush=True)  # Python3 only
     print('{}\t{}<br>'.format(t, msg), file=logPage)
     logPage.flush()
 
@@ -180,13 +180,15 @@ while True:
             elif command == DIS and stnAddr in stations:  # disconnect
                 del stations[stnAddr]
                 statusChanged = True
-                log('Disc\t{}'.format(stationString(station)))
+                log('Disc\t{}'.format(stationString
+
+(station)))
             else:
                 log('Unrecognized command code: {}'.format(command))
         elif nBytes == 496:
             command, stnID, nCodeElements, stnVersion = longRecord.unpack(buf)
             stnID, sep, fill = stnID.decode(encoding='ascii',
-                    errors='ignore').partition('\x00')
+                                            errors='ignore').partition('\x00')
             if stnID[-5:-4] == '#':
                 stnPIN = stnID[-4:]
                 stnID = stnID[:-5]
@@ -195,13 +197,13 @@ while True:
             else:
                 stnPIN = ''
             stnVersion, sep, fill = stnVersion.decode(encoding='ascii',
-                    errors='ignore').partition('\x00')
+                                                      errors='ignore').partition('\x00')
             if stnIP == NEWSBOTIP:
                 stnVersion = 'NewsBot'
             if nCodeElements > 0:
                 stnVersion = ''
             if command == DAT:
-                station.updateIDPINandVersion(stnID, stnPIN, stnVersion);
+                station.updateIDPINandVersion(stnID, stnPIN, stnVersion)
                 sw = station.wire
                 if sw and (not sw in pins or stnPIN == pins[sw]) and \
                         station.id and station.version:
@@ -217,5 +219,5 @@ while True:
             log('Invalid record length: {}'.format(nBytes))
     except Exception as e:
         sys.stderr.write('{0} KOBServer error: {1}\n'
-                .format(time.asctime(), e))
+                         .format(time.asctime(), e))
         sys.stderr.flush()

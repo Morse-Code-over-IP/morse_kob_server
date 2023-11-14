@@ -1,3 +1,5 @@
 .DS_Store
 pins.pyc
 __pycache__/*
+www/logs/log.html
+www/index.html
