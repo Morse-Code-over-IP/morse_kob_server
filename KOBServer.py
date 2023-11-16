@@ -31,8 +31,8 @@ from pins import pins  # dictionary mapping wire nos. to PIN codes
 
 # constants
 VERSION = os.environ.get('VERSION', '6.1.0')
-PORT = os.environ.get('PORT', '7890')
-TIMEOUT = os.environ.get('TIMEOUT', '90.0')# to accommodate NewsBot's 30 second heartbeat timer
+PORT = int(os.environ.get('PORT', '7890'))
+TIMEOUT = float(os.environ.get('TIMEOUT', '90.0')) # to accommodate NewsBot's 30 second heartbeat timer
 NEWSBOTIP = os.environ.get('NEWSBOTIP', '70.167.219.231')
 
 
