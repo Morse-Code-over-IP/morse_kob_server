@@ -1,0 +1,1 @@
+- finish environment config (cf. mopp server)
